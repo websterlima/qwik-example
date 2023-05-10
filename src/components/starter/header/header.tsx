@@ -1,34 +1,24 @@
 import { component$ } from '@builder.io/qwik';
-import { QwikLogo } from '../icons/qwik';
-import styles from './header.module.css';
+import { Form } from '@builder.io/qwik-city';
+import { useAuthSession, useAuthSignin, useAuthSignout } from '~/routes/plugin@auth';
 
 export default component$(() => {
-  return (
-    <header class={styles.header}>
-      <div class={['container', styles.wrapper]}>
-        <div class={styles.logo}>
-          <a href="/" title="qwik">
-            <QwikLogo height={50} width={143} />
-          </a>
-        </div>
-        <ul>
-          <li>
-            <a href="https://qwik.builder.io/docs/components/overview/" target="_blank">
-              Docs
-            </a>
-          </li>
-          <li>
-            <a href="https://qwik.builder.io/examples/introduction/hello-world/" target="_blank">
-              Examples
-            </a>
-          </li>
-          <li>
-            <a href="https://qwik.builder.io/tutorial/welcome/overview/" target="_blank">
-              Tutorials
-            </a>
-          </li>
-        </ul>
-      </div>
-    </header>
+  const session = useAuthSession();
+  const signIn = useAuthSignin();
+  const signOut = useAuthSignout();
+
+	return (
+		<div class="flex my-5 mx-5">
+			<div class="flex-grow"></div>
+			{session.value?.user?.email ? (
+				<Form action={signOut}>
+					<button>Sign out</button>
+				</Form>
+			) : (
+				<Form action={signIn}>
+				<button>Sign in</button>
+			</Form>
+			)}
+		</div>
   );
 });
