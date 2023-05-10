@@ -34,7 +34,10 @@ const Answers = component$(
               <div>{answer.answer}</div>
               <div class="flex justify-center">
                 {loggedIn && (
-                  <button class="btn btn-primary btn-sm px-10" onClick$={() => onVote$?.(question.id, answer.id)}>
+                  <button
+                    class="btn btn-primary btn-sm px-10"
+                    onClick$={() => onVote$?.(question.id, answer.id)}
+                  >
                     Vote
                   </button>
                 )}
@@ -44,7 +47,7 @@ const Answers = component$(
                   class="progress progress-error w-full"
                   value={Math.round((votes / totalVotes) * 100) || 0}
                   max="100"
-                ></progress>
+                />
               </div>
               <div>{votes} votes</div>
             </>

@@ -1,11 +1,11 @@
-import { component$ } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
-import { Link, routeLoader$ } from '@builder.io/qwik-city';
-import prismaClient from '~/lib/prismaClient';
+import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
+import prismaClient from "~/lib/prismaClient";
 
 export const useCategories = routeLoader$(async () => {
   return prismaClient.category.findMany();
-})
+});
 
 export default component$(() => {
   const categories = useCategories();
@@ -34,6 +34,6 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: 'Qwik Voting',
+  title: "Qwik Voting",
   meta: [],
 };

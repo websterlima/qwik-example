@@ -1,13 +1,13 @@
-import { component$, Slot, useStyles$ } from '@builder.io/qwik';
-import { Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
-import Header from '~/components/starter/header/header';
-import prismaClient from '~/lib/prismaClient';
+import { component$, Slot, useStyles$ } from "@builder.io/qwik";
+import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
+import Header from "~/components/starter/header/header";
+import prismaClient from "~/lib/prismaClient";
 
-import styles from './styles.css?inline';
+import styles from "./styles.css?inline";
 
 export const useCategories = routeLoader$(async () => {
   return prismaClient.category.findMany();
-})
+});
 
 const navItem = "p-2";
 const navItemActive = `${navItem} bg-gray-300 text-black rounded-md font-bold`;

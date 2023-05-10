@@ -7,7 +7,7 @@ export const useCreateCategory = routeAction$(
     return prismaClient.category.create({ data });
   },
   zod$({
-    name: z.string()
+    name: z.string(),
   })
 );
 
@@ -19,8 +19,14 @@ export default component$(() => {
       <h1 class="test-3xl">Create Category</h1>
       <Form action={createCategory}>
         <label>Name</label>
-        <input name="name" value={createCategory.formData?.get('name')} class="input input-bordered" />
-        <button type="submit" class="btn">Create</button>
+        <input
+          name="name"
+          value={createCategory.formData?.get("name")}
+          class="input input-bordered"
+        />
+        <button type="submit" class="btn">
+          Create
+        </button>
       </Form>
       {createCategory.value && (
         <div>
@@ -28,5 +34,5 @@ export default component$(() => {
         </div>
       )}
     </div>
-  )
-})
+  );
+});

@@ -1,4 +1,10 @@
-import { $, component$, useComputed$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import {
+  $,
+  component$,
+  useComputed$,
+  useSignal,
+  useVisibleTask$,
+} from "@builder.io/qwik";
 import { routeLoader$, server$ } from "@builder.io/qwik-city";
 import type { Question } from "@prisma/client";
 import Answers from "~/components/starter/answers";
@@ -6,38 +12,39 @@ import prismaClient from "~/lib/prismaClient";
 import { useAuthSession } from "~/routes/plugin@auth";
 import type { VoteTally } from "~/types";
 
-const vote = server$(async (email: string, questionId: number, answerId: number) => {
-  await prismaClient.vote.deleteMany({
-    where: {email, questionId}
-  })
+const vote = server$(
+  async (email: string, questionId: number, answerId: number) => {
+    await prismaClient.vote.deleteMany({
+      where: { email, questionId },
+    });
 
-  await prismaClient.vote.create({
-    data: {
-      email,
-      questionId,
-      answerId
-    }
-  })
+    await prismaClient.vote.create({
+      data: {
+        email,
+        questionId,
+        answerId,
+      },
+    });
 
-  const question = await prismaClient.question.findFirst({
-    where: { id: questionId }
-  });
+    const question = await prismaClient.question.findFirst({
+      where: { id: questionId },
+    });
 
-  const questions = await prismaClient.question.findMany({
-    where: { categoryId: question?.categoryId ?? 0 },
-    include: {
-      answers: true
-    }
-  })
+    const questions = await prismaClient.question.findMany({
+      where: { categoryId: question?.categoryId ?? 0 },
+      include: {
+        answers: true,
+      },
+    });
 
-  const votes = await getVotes(questions);
+    const votes = await getVotes(questions);
 
-  return {
-    votes,
-    thankYou: 'Thank you for voting!',
-  };
-
-})
+    return {
+      votes,
+      thankYou: "Thank you for voting!",
+    };
+  }
+);
 
 const getVotes = async (questions: Question[]): Promise<VoteTally[]> =>
   (
@@ -89,15 +96,15 @@ export default component$(() => {
     if (response.value) {
       const interval = setInterval(() => {
         response.value = undefined;
-      }, 3000)
+      }, 3000);
 
-      cleanup(() => clearInterval(interval))
+      cleanup(() => clearInterval(interval));
     }
   });
 
   const onVote = $(async (questionId: number, answerId: number) => {
     const voteResponse = await vote(
-      session.value?.user?.email ?? '',
+      session.value?.user?.email ?? "",
       questionId,
       answerId
     );
@@ -135,4 +142,4 @@ export default component$(() => {
       ))}
     </>
   );
-})
+});
